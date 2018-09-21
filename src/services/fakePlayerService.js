@@ -138,7 +138,7 @@ export function savePlayer(player) {
   playerInDb.yearOfBirth = player.yearOfBirth;
 
   if (!playerInDb._id) {
-    playerInDb._id = Date.now();
+    playerInDb._id = Date.now().toString();
     players.push(playerInDb);
   }
 

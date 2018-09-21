@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 import PlayersTable from "./playersTable";
 import ListGroup from "./common/listGroup";
 import Pagination from "./common/pagination";
@@ -94,6 +95,13 @@ class Players extends Component {
           />
         </div>
         <div className="col">
+          <Link
+            to="/players/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            Novi igrac
+          </Link>
           <p>Na popisu je {totalCount} igraca.</p>
           <PlayersTable
             players={players}

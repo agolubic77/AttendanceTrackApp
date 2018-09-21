@@ -1,7 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
-  return <h1>not Found</h1>;
+  return (
+    <div className="container">
+      <h1>404</h1>
+      <br />
+      <Link className="btn btn-primary" to="/players">
+        Početna
+      </Link>
+    </div>
+  );
 };
 
 export default NotFound;

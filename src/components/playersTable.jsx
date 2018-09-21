@@ -8,7 +8,7 @@ class PlayersTable extends Component {
       path: "name",
       label: "Ime",
       content: player => (
-        <Link to={`/players/${player._id}`}>{player.name}</Link>
+        <Link to={`/players/${player._id}/${player.name}`}>{player.name}</Link>
       )
     },
     { path: "yearOfBirth", label: "Godiste" },
