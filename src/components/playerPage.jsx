@@ -21,7 +21,7 @@ const PlayerPage = ({ match, history }) => {
           className="btn btn-primary"
           onClick={() => history.push("/players")}
         >
-          Save
+          Natrag
         </button>
       </div>
       <div className="col-6">

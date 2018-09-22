@@ -3,6 +3,7 @@ import _ from "lodash";
 import { Link } from "react-router-dom";
 import PlayersTable from "./playersTable";
 import ListGroup from "./common/listGroup";
+import SearchBox from "./common/searchBox";
 import Pagination from "./common/pagination";
 import { paginate } from "../utils/paginate";
 import { getPlayers } from "../services/fakePlayerService";
@@ -14,6 +15,8 @@ class Players extends Component {
     teams: [],
     currentPage: 1,
     pageSize: 6,
+    searchQuery: "",
+    selectedTeam: null,
     sortColumn: { path: "name", order: "asc" }
   };
 
@@ -49,11 +52,15 @@ class Players extends Component {
   };
 
   handleTeamSelect = team => {
-    this.setState({ selectedTeam: team, currentPage: 1 });
+    this.setState({ selectedTeam: team, currentPage: 1, searchQuery: "" });
   };
 
   handleSort = sortColumn => {
     this.setState({ sortColumn });
+  };
+
+  handleSearch = query => {
+    this.setState({ searchQuery: query, selectedTeam: null, currentPage: 1 });
   };
 
   getPagedData = () => {
@@ -62,13 +69,17 @@ class Players extends Component {
       currentPage,
       sortColumn,
       selectedTeam,
+      searchQuery,
       players: allPlayers
     } = this.state;
 
-    const filtered =
-      selectedTeam && selectedTeam._id
-        ? allPlayers.filter(p => p.team._id === selectedTeam._id)
-        : allPlayers;
+    let filtered = allPlayers;
+    if (searchQuery)
+      filtered = allPlayers.filter(p =>
+        p.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+    else if (selectedTeam && selectedTeam._id)
+      filtered = allPlayers.filter(p => p.team._id === selectedTeam._id);
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -79,7 +90,7 @@ class Players extends Component {
 
   render() {
     const { length: count } = this.state.players;
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
 
     if (count === 0) return <p>Nema igraca</p>;
 
@@ -103,6 +114,7 @@ class Players extends Component {
             Novi igrac
           </Link>
           <p>Na popisu je {totalCount} igraca.</p>
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <PlayersTable
             players={players}
             sortColumn={sortColumn}
